@@ -1,10 +1,29 @@
-const newBookForm = document.querySelector("#entry-form");
+const newBookForm = document.getElementById("entry-form");
 const bookContainer = document.querySelector(".container");
 const bookTemplate = document.querySelector(".book-template");
+const formPopUp = document.getElementById("form-popup");
     
 // REMOVE: let myLibrary = [{title: "Abcd", author: "lego", pages: "300", read: true}, {title: "Ef Ghi", author: "PoPo", pages: "500", read: true}, {title: "XYZ", author: "Button Head", pages: "200", read: false}];
 
 let myLibrary = [];
+
+// EventListener for the add book button 
+function openAddBookForm() {
+    formPopUp.style.display = "block"; 
+}
+
+// Append the eventListener to add Book button 
+document.getElementById("open-form").addEventListener("click", openAddBookForm);
+
+// EventListener for cancel book button 
+function closeAddBookForm() {
+    formPopUp.style.display = "none"; 
+    newBookForm.reset();
+}
+
+// Append the eventListener to cancel button 
+document.getElementById("cancel").addEventListener("click", closeAddBookForm);
+
 
 // Constructor function for making “Book” objects
 function Book(title, author, pages, read) {
