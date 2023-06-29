@@ -10,14 +10,14 @@
     <!-- header -->
     <div class="header">
         <h1>Library</h1>
-        <button class="add">New Book</button>
+        <button id="open-form">New Book</button>
     </div>
 
     <!-- pop-up form -->
-    <div class="form-background">
+    <div id="form-popup">
         <form id="entry-form">
             <h2>New Book</h2>
-            <button class="cancel"><img src="./assets/images/close-thick.svg" width="32" height="32" alt="cancel-icon"></button>
+            <button type="button" id="cancel"><img src="./assets/images/close-thick.svg" width="32" height="32" alt="cancel-icon"></button>
             <label for="title">Title</label>
             <input type="text" id="title" name="title" required>
             <label for="author">Author</label>
