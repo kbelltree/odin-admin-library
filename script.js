@@ -7,24 +7,6 @@ const formPopUp = document.getElementById("form-popup");
 
 let myLibrary = [];
 
-// EventListener for the add book button 
-function openAddBookForm() {
-    formPopUp.style.display = "block"; 
-}
-
-// Append the eventListener to add Book button 
-document.getElementById("open-form").addEventListener("click", openAddBookForm);
-
-// EventListener for cancel book button 
-function closeAddBookForm() {
-    formPopUp.style.display = "none"; 
-    newBookForm.reset();
-}
-
-// Append the eventListener to cancel button 
-document.getElementById("cancel").addEventListener("click", closeAddBookForm);
-
-
 // Constructor function for making “Book” objects
 function Book(title, author, pages, read) {
     this.title = title;
@@ -48,6 +30,23 @@ Book.prototype.updateStatus = function(element) {
         element.textContent = "Unread";
     }
 }
+
+// EventListener for the add book button 
+function openAddBookForm() {
+    formPopUp.style.display = "block"; 
+}
+
+// Append the eventListener to add Book button 
+document.getElementById("open-form").addEventListener("click", openAddBookForm);
+
+// EventListener for cancel book button 
+function closeAddBookForm() {
+    formPopUp.style.display = "none"; 
+    newBookForm.reset();
+}
+
+// Append the eventListener to cancel button 
+document.getElementById("cancel").addEventListener("click", closeAddBookForm);
 
 // Function that pushes newly created Book object to myLibrary array
 function addBookToLibrary(bookObj) {
@@ -134,14 +133,14 @@ function removeBook(e) {
 
 // EventListener for read status change button 
 function switchReadStatus() {
-    // Choose 'this' over 'e.target' to assure the div element is referred
+    // Use 'this' over 'e.target' to assure the div element is referred
     if (this.textContent === "Read") { 
-        this.classList.remove = "read";
-        this.classList.add = "unread";
+        this.classList.remove("read");
+        this.classList.add("unread");
         this.textContent = "Unread";  
     } else {
-        this.classList.remove = "unread";
-        this.classList.add = "read";
+        this.classList.remove("unread");
+        this.classList.add("read");
         this.textContent = "Read";
     } 
 }
