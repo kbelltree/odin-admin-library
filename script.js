@@ -111,7 +111,8 @@ newBookForm.addEventListener("submit", function(e){
     addBookToDisplay(newBook);
     
     // Clear the form 
-    newBookForm.reset();
+    // newBookForm.reset();
+    closeAddBookForm();
 })
 
 // EventListener for delete button that removes the book from display and myLibrary array 
