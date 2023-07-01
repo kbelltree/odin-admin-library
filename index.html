@@ -17,16 +17,26 @@
     <!-- pop-up form -->
     <div id="form-popup">
         <form id="entry-form">
+            <button type="button" id="cancel">
+                <img src="./assets/images/icons8-cancel.svg" width="20" height="20" alt="cancel-icon">
+            </button>
             <h2>New Book</h2>
-            <button type="button" id="cancel"><img src="./assets/images/close-thick.svg" width="32" height="32" alt="cancel-icon"></button>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" required>
-            <label for="author">Author</label>
-            <input type="text" id="author" name="author">
-            <label for="pages">Pages</label>
-            <input type="text" id="pages" name="pages" pattern="[0-9]+">
-            <label for="finished">Finished?</label>
-            <input type="checkbox" id="finished" name="read">
+            <div class="title-input">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="author-input">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author">
+            </div>
+            <div class="pages-input">
+                <label for="pages">Pages</label>
+                <input type="text" id="pages" name="pages" pattern="[0-9]+">
+            </div>
+            <div class="status-input">
+                <label for="finished">Finished?</label>
+                <input type="checkbox" id="finished" name="read">
+            </div>
             <input type="submit" value="Add">
         </form>
     </div>
@@ -49,7 +59,7 @@
         
     </div>
 
-    <p class="credit">Created by Keiko S., 2023.</p>
+    <p class="credit"><a target="_blank" href="https://icons8.com/icon/59754/cancel">Cancel</a> icon by <a target="_blank" href="https://icons8.com">Icons8,</a> Webpage by <a href="https://github.com/kbelltree" >Keiko S.</a>, 2023. 
 
 </body>
 
