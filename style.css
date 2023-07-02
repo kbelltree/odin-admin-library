@@ -1,0 +1,310 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: inherit;
+}
+
+:root {
+  --font-color: #00303F;
+  --button-color: #66838c;
+  --button-color-hover: #b3c1c6;
+  --book-card-color: #F5F4F4;
+  --status-label-read-color: #C3A37B;
+  --status-label-unread-color: #E4D1BA;
+  --sub-btn-color: #CAE4DB;
+  --entry-form-bg-color: #4d6e79;
+}
+
+/* poppins-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('assets/fonts/poppins-v20-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* poppins-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  src: url('assets/fonts/poppins-v20-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* fraunces-800 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 800;
+  src: url('assets/fonts/fraunces-v31-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+body, button {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: var(--font-color, black);
+}  
+
+h1 {
+  font-family: 'Fraunces', serif; 
+  font-size: 3rem; 
+}
+
+h2 {
+  font-size: 1.75rem; 
+}
+
+h3 {
+  font-size: 1.25rem; 
+}
+
+label {
+  font-weight: 700;
+  letter-spacing: 1px; 
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid; 
+  grid-template-rows: auto 1fr auto;  
+}
+
+.header {
+  grid-row: 1 / 2;
+  padding: 1rem 0;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+ 
+  position: sticky;
+  top: 0;
+  align-self: start;  
+  background-color: white; 
+  box-shadow: 0 4px 2px -2px rgb(122, 122, 122, 0.2);
+}
+
+#form-popup {
+  display: none; 
+  
+  position: fixed; 
+  z-index: 10; 
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgb(255, 255, 255, 0.7);
+  overflow: auto; 
+}
+
+#entry-form {
+  width: 25rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(7, auto);
+  gap: 1rem; 
+  grid-template-areas:
+    "... ... ... cancel"
+    "... heading heading ..."
+    "title title title title"
+    "author author author author"
+    "pages pages ... ..."
+    "status status ... ..."
+    "... submit submit ...";
+  
+  margin: 2.75rem auto; 
+  padding: 2.25rem; 
+  background-color: var(--entry-form-bg-color, rgb(0, 0, 0, 0.7)); 
+  color: white;
+  border-radius: 25px; 
+}
+
+#cancel {
+  grid-area: cancel;  
+  justify-self: end;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--entry-form-bg-color, rgb(0, 0, 0, 0.7));
+  width: 2.5rem; 
+  height: 2.5rem; 
+}
+
+#cancel img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle; 
+}
+
+#entry-form h2 {
+  grid-area: heading;
+  font-weight: 700;
+  text-align: center;
+}
+
+#entry-form > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.title-input {
+  grid-area: title; 
+}
+
+.author-input {
+  grid-area: author; 
+}
+
+.pages-input {
+  grid-area: pages; 
+}
+
+.status-input {
+  grid-area: status; 
+}
+
+input {
+  font-size: 1.25rem;
+  border-radius: 10px;
+  border: none;
+  margin-top: 0.5rem; 
+  padding: 0.5rem 1rem; 
+}
+
+input[type="checkbox"] {
+  position: relative;
+  appearance: none; 
+  width: 3rem; 
+  height: 3rem; 
+  background-color: white; 
+}
+
+input[type="checkbox"]::before {
+  content: "✔";
+  position: absolute;
+  font-size: 1.25em;
+  right: 0.8rem;
+  top: 0.3rem;
+  visibility: hidden;
+}
+
+input[type="checkbox"]:checked::before {
+  visibility: visible;
+}
+
+input[type="text"]:focus {
+  outline: 5px solid var(--font-color, black); 
+}
+
+input[type="checkbox"]:hover {
+  outline: 5px solid var(--font-color, black);
+  cursor: pointer;  
+}
+
+input[type="submit"] {
+  grid-area: submit; 
+  border-radius: 50px;
+  border: none;
+  padding: 0.75rem; 
+  font-weight: 700;
+  background-color: var(--sub-btn-color, lightgray);
+  color: var(--font-color, black);
+  width: 60%;
+  justify-self: center;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--font-color, black);
+  color: white; 
+  cursor: pointer; 
+}
+
+#open-form {
+  background-color: var(--button-color, gray);
+  font-size: 1.25rem; 
+  color: white;
+  margin-top: 1rem; 
+  border-radius: 50px;
+  padding: 0.5rem 1rem; 
+  border: none;
+  font-weight: 700;
+}
+
+#open-form:hover {
+  background-color: var(--font-color, black);
+  cursor: pointer;
+}
+
+.container {
+  grid-row: 2 / 3;
+  margin: 2.5rem 5rem; 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-auto-rows: minmax(auto, max-content);
+  gap: 2rem; 
+}
+
+.book-card {
+  padding: 0 1.25rem 1rem 1.25rem; 
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 0.5rem; 
+  background-color: var(--book-card-color, whitesmoke);
+  border-radius: 10px; 
+  box-shadow: 0px 0px 3px 0px rgb(122, 122, 122, 0.8); 
+  /* box-shadow: 2px 2px 3px -1px rgb(122, 122, 122, 0.6); */
+}
+
+.book-card button {
+  background-color: var(--sub-btn-color, lightgray);
+  margin-top: 1rem; 
+  padding: 0.5rem;
+  border: none; 
+  border-radius: 50px;
+}
+
+.book-card button:hover {
+  background-color: var(--button-color, gray);
+  color: white;
+  cursor: pointer;
+}
+
+.book-card button:active, 
+#open-form:active, 
+input[type="submit"]:active {
+  transform: scale(0.95);
+}
+
+.status-label {
+  width: 100%;
+  text-align: center;
+}
+
+.read {
+  background-color: var(--status-label-read-color, darkgoldenrod);
+  color: #3d3427;
+}
+
+.unread {
+  background-color: var(--status-label-unread-color, burlywood);
+  color: #675641;
+}
+
+.book-title {
+  text-align: center; 
+}
+
+.credit, 
+.credit a {
+  grid-row: 3 / 4;
+  text-align: center;
+  color: var(--font-color, black);
+  opacity: 65%;
+}
+
