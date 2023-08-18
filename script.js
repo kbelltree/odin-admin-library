@@ -137,7 +137,7 @@ function setReadStatusLabel(isRead, element) {
     } else {
         element.classList.remove("read");
         element.classList.add("unread");
-        element.textContent = "Unread";
+        element.textContent = "Not Read";
     }
 }
 
