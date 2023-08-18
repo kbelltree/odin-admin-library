@@ -3,9 +3,9 @@ const bookContainer = document.querySelector(".container");
 const bookTemplate = document.querySelector(".book-template");
 const formPopUp = document.getElementById("form-popup");
     
-// REMOVE: let myLibrary = [{title: "Abcd", author: "lego", pages: "300", read: true}, {title: "Ef Ghi", author: "PoPo", pages: "500", read: true}, {title: "XYZ", author: "Button Head", pages: "200", read: false}];
-
 let myLibrary = [];
+
+let bookIdNumbering = 0; 
 
 // Constructor function for making “Book” objects
 function Book(title, author, pages, read) {
@@ -17,18 +17,8 @@ function Book(title, author, pages, read) {
 
     // IF checkbox is checked set boolean true, otherwise false
     this.read = read === "on" ? true : false;
-}
-
-
-// Add prototype that check read status and change style and text 
-Book.prototype.updateStatus = function(element) {
-    if (this.read) {
-        element.classList.add("read");
-        element.textContent = "Read";     
-    } else {
-        element.classList.add("unread");
-        element.textContent = "Unread";
-    }
+    
+    this.id = ++bookIdNumbering;
 }
 
 // EventListener for the add book button 
@@ -59,6 +49,7 @@ function addBookToDisplay(bookObj) {
         const clonedBookTemplate = bookTemplate.content.cloneNode(true);
         
         // Create access to all the copied book template elements
+        const bookCard = clonedBookTemplate.querySelector(".book-card");
         const bookTitle = clonedBookTemplate.querySelector(".book-title");
         const bookAuthor = clonedBookTemplate.querySelector(".book-author");
         const bookPages = clonedBookTemplate.querySelector(".book-pages");
@@ -69,18 +60,16 @@ function addBookToDisplay(bookObj) {
         bookTitle.textContent = bookObj.title;
         bookAuthor.textContent = `by ${bookObj.author}`;
         bookPages.textContent = `${bookObj.pages} pages`;
+        bookCard.dataset.id = bookObj.id; 
         
-        // Call read status updates method 
-        bookObj.updateStatus(statusLabel);
+        // Add read status label
+        setReadStatusLabel(bookObj.read, statusLabel);
         
         //Add eventListener to read status label for status change later
-        statusLabel.addEventListener("click", switchReadStatus);
-        
-        // Add data attribute matching to book title to delete button
-        deleteBtn.dataset.title = bookTitle.textContent; 
-        
+        statusLabel.addEventListener("click", handleReadStatusClick);
+
         // Add eventListener that remove the book on click 
-        deleteBtn.addEventListener("click", removeBook);
+        deleteBtn.addEventListener("click", handleDeleteClick);
         
         // Append the filled book-card to book container
         bookContainer.appendChild(clonedBookTemplate);
@@ -97,54 +86,81 @@ newBookForm.addEventListener("submit", function(e){
     // Retrieve the input data from the form 
     const formData = new FormData(e.target);
     
-    // REMOVE: console.log(formData);
-    
     // Create a new book object from retrieved form data
     const newBook = new Book(formData.get("title"), formData.get("author"), formData.get("pages"), formData.get("read"));
     
     // Push the new book object to an array
     addBookToLibrary(newBook);   
    
-    // REMOVE: console.log('newBook: ' + newBook + ' myLibrary: ' + myLibrary); 
-    
     // Display the new book following with the currently displayed books 
-    addBookToDisplay(newBook);
+    addBookToDisplay(myLibrary[myLibrary.length - 1]);
     
     // Clear the form 
-    // newBookForm.reset();
     closeAddBookForm();
 })
 
-// EventListener for delete button that removes the book from display and myLibrary array 
-function removeBook(e) {
-    // Pull the title attribute attached to the button element
-    const bookTitle = e.target.dataset.title; 
-    const bookSelected = this.parentNode; 
-    
+// UI function get book id data on click 
+function getClickedBookID(e) {
+    const bookCard = e.target.closest('.book-card');
+    if (bookCard){
+        const bookID = bookCard.dataset.id;
+        console.log('ID of book:', bookID);
+        return parseInt(bookID, 10); 
+    }
+}
+
+function deleteBookFromLibrary(bookID) {  
     // Find the matching title in myLibrary array and remove it
-    let indexOfBookToRemove = myLibrary.findIndex(bookObj => {
-            return bookObj.title === bookTitle;
-        });
-
-    myLibrary.splice(indexOfBookToRemove, 1);
-    
-    // Remove the object that contains the button from display 
-    bookSelected.remove();
+    const indexOfBookToRemove = myLibrary.findIndex(bookObj => bookObj.id === bookID);
+    if (indexOfBookToRemove !== -1){
+        myLibrary.splice(indexOfBookToRemove, 1);
+    }    
 }
 
-// EventListener for read status change button 
-function switchReadStatus() {
-    // Use 'this' over 'e.target' to assure the div element is referred
-    if (this.textContent === "Read") { 
-        this.classList.remove("read");
-        this.classList.add("unread");
-        this.textContent = "Unread";  
+function deleteBookFromDisplay(bookID){
+    const bookCardID = document.querySelector(`.book-card[data-id="${bookID}"]`);
+    bookCardID.remove();
+}
+
+// EventListener for delete button that removes the book from display and myLibrary array 
+function handleDeleteClick(e){
+    const clickedBookID = getClickedBookID(e);
+    deleteBookFromLibrary(clickedBookID);
+    deleteBookFromDisplay(clickedBookID);
+}
+
+function setReadStatusLabel(isRead, element) {
+    if (isRead) {
+        element.classList.remove("unread");
+        element.classList.add("read");
+        element.textContent = "Read";     
     } else {
-        this.classList.remove("unread");
-        this.classList.add("read");
-        this.textContent = "Read";
-    } 
+        element.classList.remove("read");
+        element.classList.add("unread");
+        element.textContent = "Unread";
+    }
 }
 
+// function for read status of bookObj 
+function toggleReadStatus(bookID) {
+    // Find the matching object in myLibrary array 
+    const selectedBookObj = myLibrary.find(bookObj => bookObj.id === bookID);
+    if (selectedBookObj) {
+        selectedBookObj.read = !selectedBookObj.read;
+        console.log(selectedBookObj.read);
+        return selectedBookObj.read; 
+    }
+    return null;
+}
 
+function handleReadStatusClick(e){
+    const clickedBookID = getClickedBookID(e);
+    const isRead = toggleReadStatus(clickedBookID);
+    if (typeof isRead === 'boolean') {
+        const bookCardID = document.querySelector(`.book-card[data-id="${clickedBookID}"]`);
+        const statusLabel = bookCardID.querySelector(".status-label");
+
+        setReadStatusLabel(isRead, statusLabel);
+    }
+}
 
