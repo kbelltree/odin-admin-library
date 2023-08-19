@@ -7,6 +7,7 @@
 
 :root {
   --font-color: #00303F;
+  --light-font-color: #1a4552;
   --button-color: #66838c;
   --button-color-hover: #b3c1c6;
   --book-card-color: #F5F4F4;
@@ -50,15 +51,15 @@ body, button {
 
 h1 {
   font-family: 'Fraunces', serif; 
-  font-size: 3rem; 
+  font-size: clamp(2rem, 0.0097vw + 28.354px, 3rem); 
 }
 
 h2 {
-  font-size: 1.75rem; 
+  font-size: clamp(1.625rem, 0.0061vw + 24.678px, 2.25rem);
 }
 
 h3 {
-  font-size: 1.25rem; 
+  font-size: clamp(1.375rem, 0.0036vw + 21.632px, 1.75rem);
 }
 
 label {
@@ -244,7 +245,8 @@ input[type="submit"]:hover {
   margin: 2.5rem 5rem; 
   display: grid; 
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  grid-auto-rows: minmax(auto, max-content);
+  /* grid-auto-rows: minmax(auto, max-content); */
+  grid-auto-rows: 22rem; 
   gap: 2rem; 
 }
 
@@ -282,6 +284,7 @@ input[type="submit"]:active {
 }
 
 .status-label {
+  font-size: 1.25rem; 
   width: 100%;
   text-align: center;
 }
@@ -296,8 +299,23 @@ input[type="submit"]:active {
   color: #675641;
 }
 
+.book-title, 
+.book-author {
+  max-width: 100%; 
+  text-transform: capitalize;
+}
 .book-title {
+  color: var(--light-font-color, darkgray);
+  font-weight: 700;
   text-align: center; 
+  word-wrap: break-word;
+  overflow: auto; 
+}
+
+.book-author {
+  text-decoration: underline;
+  text-align: center; 
+  overflow: auto;
 }
 
 .credit, 
