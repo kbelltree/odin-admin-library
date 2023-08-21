@@ -7,7 +7,6 @@ let myLibrary = [];
 
 let bookIdNumbering = 0; 
 
-// Constructor function for making “Book” objects
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
@@ -21,64 +20,23 @@ function Book(title, author, pages, read) {
     this.id = ++bookIdNumbering;
 }
 
-// EventListener for the add book button 
 function openAddBookForm() {
     formPopUp.style.display = "block"; 
 }
 
-// Append the eventListener to add Book button 
 document.getElementById("open-form").addEventListener("click", openAddBookForm);
 
-// EventListener for cancel book button 
 function closeAddBookForm() {
     formPopUp.style.display = "none"; 
     newBookForm.reset();
 }
 
-// Append the eventListener to cancel button 
 document.getElementById("cancel").addEventListener("click", closeAddBookForm);
 
-// Function that pushes newly created Book object to myLibrary array
 function addBookToLibrary(bookObj) {
     myLibrary.push(bookObj);
 }
 
-// Function that creates a book-card from new book object
-function addBookToDisplay(bookObj) {
-        // Create a copy of book template
-        const clonedBookTemplate = bookTemplate.content.cloneNode(true);
-        
-        // Create access to all the copied book template elements
-        const bookCard = clonedBookTemplate.querySelector(".book-card");
-        const bookTitle = clonedBookTemplate.querySelector(".book-title");
-        const bookAuthor = clonedBookTemplate.querySelector(".book-author");
-        const bookPages = clonedBookTemplate.querySelector(".book-pages");
-        const deleteBtn = clonedBookTemplate.querySelector(".delete-btn");
-        const statusLabel = clonedBookTemplate.querySelector(".status-label");
-        
-        // Add content to each copied element
-        bookTitle.textContent = bookObj.title;
-        bookAuthor.textContent = `by ${bookObj.author}`;
-        bookPages.textContent = `${bookObj.pages} pages`;
-        bookCard.dataset.id = bookObj.id; 
-        
-        // Add read status label
-        setReadStatusLabel(bookObj.read, statusLabel);
-        
-        //Add eventListener to read status label for status change later
-        statusLabel.addEventListener("click", handleReadStatusClick);
-
-        // Add eventListener that remove the book on click 
-        deleteBtn.addEventListener("click", handleDeleteClick);
-        
-        // Append the filled book-card to book container
-        bookContainer.appendChild(clonedBookTemplate);
-}
-
-// Append class containing grid layout and style
-
-
-// Attach an eventListener that fires on submit to the form
 newBookForm.addEventListener("submit", function(e){
     // Prevent from submitting the data to server & reload
     e.preventDefault();
@@ -93,7 +51,7 @@ newBookForm.addEventListener("submit", function(e){
     addBookToLibrary(newBook);   
    
     // Display the new book following with the currently displayed books 
-    addBookToDisplay(myLibrary[myLibrary.length - 1]);
+    createBookCardFromBookObj(myLibrary[myLibrary.length - 1]);
     
     // Clear the form 
     closeAddBookForm();
@@ -122,7 +80,6 @@ function deleteBookFromDisplay(bookID){
     bookCardID.remove();
 }
 
-// EventListener for delete button that removes the book from display and myLibrary array 
 function handleDeleteClick(e){
     const clickedBookID = getClickedBookID(e);
     deleteBookFromLibrary(clickedBookID);
@@ -141,7 +98,6 @@ function setReadStatusLabel(isRead, element) {
     }
 }
 
-// function for read status of bookObj 
 function toggleReadStatus(bookID) {
     // Find the matching object in myLibrary array 
     const selectedBookObj = myLibrary.find(bookObj => bookObj.id === bookID);
@@ -164,3 +120,34 @@ function handleReadStatusClick(e){
     }
 }
 
+// Function that creates a book-card from new book object
+function createBookCardFromBookObj(bookObj) {
+    // Create a copy of book template
+    const clonedBookTemplate = bookTemplate.content.cloneNode(true);
+    
+    // Create access to all the copied book template elements
+    const bookCard = clonedBookTemplate.querySelector(".book-card");
+    const bookTitle = clonedBookTemplate.querySelector(".book-title");
+    const bookAuthor = clonedBookTemplate.querySelector(".book-author");
+    const bookPages = clonedBookTemplate.querySelector(".book-pages");
+    const deleteBtn = clonedBookTemplate.querySelector(".delete-btn");
+    const statusLabel = clonedBookTemplate.querySelector(".status-label");
+    
+    // Add content to each copied element
+    bookTitle.textContent = bookObj.title;
+    bookAuthor.textContent = `by ${bookObj.author}`;
+    bookPages.textContent = `${bookObj.pages} pages`;
+    bookCard.dataset.id = bookObj.id; 
+    
+    // Add read status label
+    setReadStatusLabel(bookObj.read, statusLabel);
+    
+    //Add eventListener to read status label for status change later
+    statusLabel.addEventListener("click", handleReadStatusClick);
+
+    // Add eventListener that remove the book on click 
+    deleteBtn.addEventListener("click", handleDeleteClick);
+    
+    // Append the filled book-card to book container
+    bookContainer.appendChild(clonedBookTemplate);
+}
