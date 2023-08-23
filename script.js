@@ -3,21 +3,49 @@ const bookContainer = document.querySelector(".container");
 const bookTemplate = document.querySelector(".book-template");
 const formPopUp = document.getElementById("form-popup");
     
-let myLibrary = [];
+class Book {
+    // Public variables 
+    static myLibrary = [];
+    static bookIdNumbering = 0; 
 
-let bookIdNumbering = 0; 
+    constructor(title, author, pages, read) {
+        this._title = title;
+        this._author = author;
+        this.pages = pages; 
+        this.read = read; 
+        this.id = ++Book.bookIdNumbering; 
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-
-    // IF pages passed without input, show "0"
-    this.pages = pages === "" ? "0" : pages;  
-
-    // IF checkbox is checked set boolean true, otherwise false
-    this.read = read === "on" ? true : false;
+        // Add instance to the library at the time instance created
+        Book.myLibrary.push(this);
+    }
     
-    this.id = ++bookIdNumbering;
+    get title() {
+        return this._title; 
+    }
+
+    get author() {
+        return this._author; 
+    }
+
+    get pages() {
+        return this._pages; 
+    }
+
+    get read() {
+        return this._read; 
+    }
+
+    set pages(value) {
+        this._pages = value === "" ? "0" : value; 
+    }
+    
+    set read(value) {
+        if (value === "on" || value === true) {
+            this._read = true;
+        } else if (value === null || value === false) {
+            this._read = false;
+        }
+    }
 }
 
 function openAddBookForm() {
@@ -33,10 +61,6 @@ function closeAddBookForm() {
 
 document.getElementById("cancel").addEventListener("click", closeAddBookForm);
 
-function addBookToLibrary(bookObj) {
-    myLibrary.push(bookObj);
-}
-
 newBookForm.addEventListener("submit", function(e){
     // Prevent from submitting the data to server & reload
     e.preventDefault();
@@ -45,13 +69,10 @@ newBookForm.addEventListener("submit", function(e){
     const formData = new FormData(e.target);
     
     // Create a new book object from retrieved form data
-    const newBook = new Book(formData.get("title"), formData.get("author"), formData.get("pages"), formData.get("read"));
-    
-    // Push the new book object to an array
-    addBookToLibrary(newBook);   
-   
+    new Book(formData.get("title"), formData.get("author"), formData.get("pages"), formData.get("read"));
+        
     // Display the new book following with the currently displayed books 
-    createBookCardFromBookObj(myLibrary[myLibrary.length - 1]);
+    createBookCardFromBookObj(Book.myLibrary[Book.myLibrary.length - 1]);
     
     // Clear the form 
     closeAddBookForm();
@@ -69,9 +90,9 @@ function getClickedBookID(e) {
 
 function deleteBookFromLibrary(bookID) {  
     // Find the matching title in myLibrary array and remove it
-    const indexOfBookToRemove = myLibrary.findIndex(bookObj => bookObj.id === bookID);
+    const indexOfBookToRemove = Book.myLibrary.findIndex(bookObj => bookObj.id === bookID);
     if (indexOfBookToRemove !== -1){
-        myLibrary.splice(indexOfBookToRemove, 1);
+        Book.myLibrary.splice(indexOfBookToRemove, 1);
     }    
 }
 
@@ -100,10 +121,12 @@ function setReadStatusLabel(isRead, element) {
 
 function toggleReadStatus(bookID) {
     // Find the matching object in myLibrary array 
-    const selectedBookObj = myLibrary.find(bookObj => bookObj.id === bookID);
+    const selectedBookObj = Book.myLibrary.find(bookObj => bookObj.id === bookID);
+    console.log(selectedBookObj);
     if (selectedBookObj) {
-        selectedBookObj.read = !selectedBookObj.read;
+        selectedBookObj.read = !selectedBookObj.read
         console.log(selectedBookObj.read);
+       
         return selectedBookObj.read; 
     }
     return null;
