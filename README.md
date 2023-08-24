@@ -158,7 +158,8 @@ This project offered an opportunity to apply new skills and reinforce ones previ
 
 **List of Referenced Tutorials**
 
-HTML related: 
+
+HTML related:
 
 - ['The Content Template element' by MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#avoiding_documentfragment_pitfall)
 
@@ -166,7 +167,8 @@ HTML related:
 
 - ['Template element' by JavaScript.Info](https://javascript.info/template-element)
 
-Javascript and DOM related: 
+
+Javascript and DOM related:
 
 - ['Constructing the Object Model' by web.dev](https://web.dev/critical-rendering-path-constructing-the-object-model/)
 
@@ -219,8 +221,8 @@ Javascript and DOM related:
 - ['Getters/Setters vs. Regular Functions' by ChatGPT4(answer from my question)](https://chat.openai.com/share/9dd30319-0092-44fb-b3c8-9f71094d467c)
 
 
-CSS related: 
-
+CSS related:
+ 
 - ['How TO - Popup Form' by w3schools](https://www.w3schools.com/howto/howto_js_popup_form.asp)
 
 - ['The Best Google Font Pairings for 2023' by Leadpages](https://www.leadpages.com/blog/best-google-fonts)
