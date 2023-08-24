@@ -146,7 +146,7 @@ This project offered an opportunity to apply new skills and reinforce ones previ
 
 *** 
 
-**Resources Used**
+### Resources Used 
 
 - google-webfonts-helper by [Mario Ranftl](https://gwfh.mranftl.com/fonts)
 - UI Designing Tool by [Figma.com](https://www.figma.com)
@@ -156,8 +156,8 @@ This project offered an opportunity to apply new skills and reinforce ones previ
 - Icons, illustrations, photos, music, and design tools by [ICONS8](https://icons8.com/)
 - Simple Responsive Font Size Calculator by [The Admin Bar](https://theadminbar.com/simple-responsive-font-size-calculator/)
 
-**List of Referenced Tutorials**
 
+### Referenced Tutorials
 
 HTML related:
 
@@ -166,7 +166,6 @@ HTML related:
 - ['HTML <template> Tag' by w3schools](https://www.w3schools.com/tags/tag_template.asp)
 
 - ['Template element' by JavaScript.Info](https://javascript.info/template-element)
-
 
 Javascript and DOM related:
 
@@ -219,7 +218,6 @@ Javascript and DOM related:
 - ['why should not use getters/setters? #1880' on GitHub](https://github.com/airbnb/javascript/issues/1880#issuecomment-479558139)
 
 - ['Getters/Setters vs. Regular Functions' by ChatGPT4(answer from my question)](https://chat.openai.com/share/9dd30319-0092-44fb-b3c8-9f71094d467c)
-
 
 CSS related:
  
