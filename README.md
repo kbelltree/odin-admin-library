@@ -1,5 +1,12 @@
 # odin-library
 ## The Odin Project: Library
+<br>
+  <div align="center">
+    <a href="https://kbelltree.github.io/odin-library">
+      <img src="assets/images/odin-project-library-keiko-s-2023.jpg" alt="library-project-UI-snapshots-by-keiko-s-2023" width=70% height=70%>
+    </a>
+  </div>
+<br>
 
 
 ## Summary 
