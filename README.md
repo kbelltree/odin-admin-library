@@ -163,7 +163,7 @@ HTML related:
 
 - ['The Content Template element' by MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#avoiding_documentfragment_pitfall)
 
-- ['HTML <template> Tag' by w3schools](https://www.w3schools.com/tags/tag_template.asp)
+- ['HTML &lt;template&gt; Tag' by w3schools](https://www.w3schools.com/tags/tag_template.asp)
 
 - ['Template element' by JavaScript.Info](https://javascript.info/template-element)
 
