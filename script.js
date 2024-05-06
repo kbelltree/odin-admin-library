@@ -2,6 +2,8 @@ const newBookForm = document.getElementById("entry-form");
 const bookContainer = document.querySelector(".container");
 const bookTemplate = document.querySelector(".book-template");
 const formPopUp = document.getElementById("form-popup");
+const addNewBookButton = document.getElementById("open-form");
+const cancelButton = document.getElementById("cancel");
     
 class Book {
     // Public variables 
@@ -52,59 +54,57 @@ function openAddBookForm() {
     formPopUp.style.display = "block"; 
 }
 
-document.getElementById("open-form").addEventListener("click", openAddBookForm);
-
 function closeAddBookForm() {
     formPopUp.style.display = "none"; 
     newBookForm.reset();
 }
 
-document.getElementById("cancel").addEventListener("click", closeAddBookForm);
+function clearContainerDiv(containerDiv){
+    while (containerDiv.firstChild){
+        containerDiv.removeChild(containerDiv.firstChild);
+    }
+};
 
-newBookForm.addEventListener("submit", function(e){
-    // Prevent from submitting the data to server & reload
-    e.preventDefault();
-    
-    // Retrieve the input data from the form 
-    const formData = new FormData(e.target);
-    
-    // Create a new book object from retrieved form data
-    new Book(formData.get("title"), formData.get("author"), formData.get("pages"), formData.get("read"));
-        
-    // Display the new book following with the currently displayed books 
-    createBookCardFromBookObj(Book.myLibrary[Book.myLibrary.length - 1]);
-    
-    // Clear the form 
-    closeAddBookForm();
-})
+function reloadLibraryDisplay(){
+    clearContainerDiv(bookContainer);
+    Book.myLibrary.forEach(book => createBookCardFromBookObj(book));
+}
 
 // UI function get book id data on click 
 function getClickedBookID(e) {
     const bookCard = e.target.closest('.book-card');
     if (bookCard){
         const bookID = bookCard.dataset.id;
-        console.log('ID of book:', bookID);
         return parseInt(bookID, 10); 
     }
 }
 
 function deleteBookFromLibrary(bookID) {  
-    // Find the matching title in myLibrary array and remove it
     const indexOfBookToRemove = Book.myLibrary.findIndex(bookObj => bookObj.id === bookID);
     if (indexOfBookToRemove !== -1){
         Book.myLibrary.splice(indexOfBookToRemove, 1);
-    }    
-}
-
-function deleteBookFromDisplay(bookID){
-    const bookCardID = document.querySelector(`.book-card[data-id="${bookID}"]`);
-    bookCardID.remove();
+    } else {
+        console.warn(`No matching bookID found: ${bookID}`);
+        return;
+    }  
 }
 
 function handleDeleteClick(e){
-    const clickedBookID = getClickedBookID(e);
-    deleteBookFromLibrary(clickedBookID);
-    deleteBookFromDisplay(clickedBookID);
+   deleteBookFromLibrary(getClickedBookID(e));
+
+   // Refresh browser with updated myLibrary
+   reloadLibraryDisplay();
+}
+
+function toggleReadStatus(bookID) {
+    // Find the matching object in myLibrary array 
+    const selectedBookObj = Book.myLibrary.find(bookObj => bookObj.id === bookID);
+    if (selectedBookObj) {
+        selectedBookObj.read = !selectedBookObj.read
+        return selectedBookObj.read; 
+    } else {
+        return null;
+    }   
 }
 
 function setReadStatusLabel(isRead, element) {
@@ -119,27 +119,11 @@ function setReadStatusLabel(isRead, element) {
     }
 }
 
-function toggleReadStatus(bookID) {
-    // Find the matching object in myLibrary array 
-    const selectedBookObj = Book.myLibrary.find(bookObj => bookObj.id === bookID);
-    console.log(selectedBookObj);
-    if (selectedBookObj) {
-        selectedBookObj.read = !selectedBookObj.read
-        console.log(selectedBookObj.read);
-       
-        return selectedBookObj.read; 
-    }
-    return null;
-}
-
 function handleReadStatusClick(e){
     const clickedBookID = getClickedBookID(e);
     const isRead = toggleReadStatus(clickedBookID);
     if (typeof isRead === 'boolean') {
-        const bookCardID = document.querySelector(`.book-card[data-id="${clickedBookID}"]`);
-        const statusLabel = bookCardID.querySelector(".status-label");
-
-        setReadStatusLabel(isRead, statusLabel);
+        reloadLibraryDisplay();
     }
 }
 
@@ -174,3 +158,24 @@ function createBookCardFromBookObj(bookObj) {
     // Append the filled book-card to book container
     bookContainer.appendChild(clonedBookTemplate);
 }
+
+addNewBookButton.addEventListener("click", openAddBookForm);
+
+cancelButton.addEventListener("click", closeAddBookForm);
+
+newBookForm.addEventListener("submit", function(e){
+    // Prevent from submitting the data to server & reload
+    e.preventDefault();
+    
+    // Retrieve the input data from the form 
+    const formData = new FormData(e.target);
+    
+    // Create a new book object from retrieved form data
+    new Book(formData.get("title"), formData.get("author"), formData.get("pages"), formData.get("read"));
+    
+    // Clear the form 
+    closeAddBookForm();
+
+    // Refresh browser with updated myLibrary
+    reloadLibraryDisplay();
+})
